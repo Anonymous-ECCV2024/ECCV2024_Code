@@ -14,8 +14,6 @@ import utils
 import pruner
 import models
 
-import BOPrune
-
 parser = argparse.ArgumentParser()
 
 # model config
@@ -31,7 +29,7 @@ parser.add_argument('--epochs', type=int, default=150)
 # pruning config
 parser.add_argument('--pruning', action='store_true')
 parser.add_argument('--sparsity', type=float, default=0.98)
-parser.add_argument('--method', choices=['random', 'magnitude', 'snip', 'grasp', 'synf', 'snip_magnitude', 'LNPrune', 'FO','BOP', 'BOP2', 'FO3', 'SCR'], default='SCR')
+parser.add_argument('--method', choices=['random', 'magnitude', 'snip', 'grasp', 'synf', 'snip_magnitude', 'ReFer'], default='ReFer')
 parser.add_argument('--alpha', type=float)
 
 # else
@@ -105,28 +103,8 @@ def main():
             pruner.SCORE = pruner.grasp(model, rm_modules, train_loader, device)
         elif args.method == 'snip_magnitude':
             pruner.SCORE = pruner.snip_magnitude(model, rm_modules, train_loader, device, args.alpha)
-        elif args.method == 'SCR':
-            pruner.SCORE = pruner.SCR(model, rm_modules, train_loader, device)
-        elif args.method == 'FO':
-            pruner.SCORE = pruner.FO(model, rm_modules, train_loader, device)
-        elif args.method == 'FO3':
-            pruner.SCORE = pruner.FO3(model, rm_modules, train_loader, device)
-
-        elif args.method == 'LNPrune':
-            if "large" in args.model:
-                pruner.SCORE = pruner.LNPrune(model, rm_modules, half_train_loader, device, str_model = args.model)
-            else:
-                pruner.SCORE = pruner.LNPrune(model, rm_modules, train_loader, device, str_model = args.model)
-        elif args.method == 'BOP':
-            alpha = BOPrune.alpha_optimizer(model, train_loader, args)
-            #alpha =  0.0012080338178616368
-            print('Optumized Alpha:', alpha)
-            pruner.SCORE = pruner.snip_magnitude2(model, rm_modules, train_loader, device, alpha)
-        elif args.method == 'BOP2':
-            alpha_list = BOPrune.alpha_optimizer2(train_loader, args)
-            #alpha =  0.0012080338178616368
-            print('Optumized Alpha:', alpha_list)
-            pruner.SCORE = pruner.snip_magnitude3(model, rm_modules, train_loader, device, alpha_list)
+        elif args.method == 'ReFer':
+            pruner.SCORE = pruner.ReFer(model, rm_modules, train_loader, device)
         
         model = create_model(args.model, pretrained=args.pretrain)
         if args.pretrain:
