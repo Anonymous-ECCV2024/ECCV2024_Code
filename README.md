@@ -19,8 +19,8 @@ The following are models that can be used.
 ## How to run?
 ```
 # CIFAR-10, ViT-B/16, Sparsity = 95%
-$ python3 main.py --model vit_base_patch16_224 --pretrain --dataset cifar10 --pruning --sparsity 0.95 --method snip_magnitude --alpha 0.001
+$ python3 main.py --model vit_base_patch16_224 --pretrain --dataset cifar10 --pruning --sparsity 0.95 --method ReFer
 
 # CIFAR-100, ViT-L/16, Sparsity = 95%
-$ python3 main.py --model vit_large_patch16_224 --pretrain --dataset cifar100 --pruning --sparsity 0.95 --method snip_magnitude --alpha 0.001
+$ python3 main.py --model vit_large_patch16_224 --pretrain --dataset cifar100 --pruning --sparsity 0.95 --method ReFer
 ```
