@@ -1,4 +1,4 @@
-# Pruning
+# ReFer: Single-shot Foresight Pruning for Retaining Feature Representation
 
 ## Requirements
 ```
